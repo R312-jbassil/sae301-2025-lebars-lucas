@@ -25,6 +25,15 @@ jobs:
       run: |
         npm run build
         cp package.json dist/server/
+    - name: Test SSH connectivity
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22037
+        script: |
+          echo "SSH OK on $(hostname)" && uname -a
     - name: Deploy to VPS via SCP
       uses: appleboy/scp-action@v0.1.3
       with:
