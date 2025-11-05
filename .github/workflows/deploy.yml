@@ -25,15 +25,6 @@ jobs:
       run: |
         npm run build
         cp package.json dist/server/
-    - name: Test SSH connectivity
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22037
-        script: |
-          echo "SSH OK on $(hostname)" && uname -a
     - name: Deploy to VPS via SCP
       uses: appleboy/scp-action@v0.1.3
       with:
@@ -55,15 +46,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22037
         script: |
-          set -e
-          cd /var/www/sae301
-          echo "[remote] Deployed files:" && ls -la
-          echo "[remote] Server dir:" && ls -la server
-          # Ensure Node & pm2 exist
-          if ! command -v node >/dev/null 2>&1; then echo "[remote] Node.js is not installed"; exit 1; fi
-          if ! command -v pm2 >/dev/null 2>&1; then echo "[remote] Installing pm2 globally"; npm i -g pm2; fi
-
-          # Run without npm install: standalone build doesn't need remote deps
           cd /var/www/sae301/server
-          echo "[remote] Starting app via pm2 on PORT=8075"
+          npm ci
+          npm install astro
+          npm install send server-destroy
           PORT=8075 pm2 restart sae301 || PORT=8075 pm2 start entry.mjs --name sae301
