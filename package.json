@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "postbuild": "node scripts/postbuild.cjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.16",
+    "@astrojs/node": "^9.1.0",
     "astro": "^5.15.3",
     "daisyui": "^5.4.3",
     "openai": "^6.8.1",
