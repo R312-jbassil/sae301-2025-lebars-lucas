@@ -1,0 +1,157 @@
+  <header class="sticky top-0 z-40 backdrop-blur supports-backdrop-filter:bg-white/70 bg-white/80 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      <a href="/" class="font-semibold tracking-tight hover:text-blue-600 transition-colors">TaVue</a>
+      <nav class="hidden md:flex items-center gap-8 text-sm">
+        <a href="/configurateur" class="nav-link relative text-gray-500 hover:text-gray-900 transition-colors pb-1" data-page="/configurateur">
+          <span>01 — Personnalisation</span>
+          <span class="nav-indicator absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300"></span>
+        </a>
+        <a href="/apercu" class="nav-link relative text-gray-500 hover:text-gray-900 transition-colors pb-1" data-page="/apercu">
+          <span>02 — Aperçu</span>
+          <span class="nav-indicator absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300"></span>
+        </a>
+        <a href="/creations" class="nav-link relative text-gray-500 hover:text-gray-900 transition-colors pb-1" data-page="/creations">
+          <span>03 — Mes Créations</span>
+          <span class="nav-indicator absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300"></span>
+        </a>
+      </nav>
+      <div id="auth-section" class="flex items-center gap-3">
+        <a href="/login" id="login-link" class="text-sm text-gray-500 hover:text-gray-900 transition-colors">Se connecter</a>
+        
+        <!-- Bouton Panier (visible quand connecté) -->
+        <a href="/panier" id="cart-link" class="hidden relative p-2 hover:bg-gray-100 rounded-lg transition-colors group" title="Mon panier">
+          <svg class="w-6 h-6 text-gray-600 group-hover:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          <span id="cart-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full items-center justify-center">0</span>
+        </a>
+
+        <!-- Info utilisateur -->
+        <div id="user-info" class="hidden items-center gap-2 bg-linear-to-r from-blue-50 to-indigo-50 px-4 py-2 rounded-full border border-blue-100 shadow-sm hover:shadow-md transition-all cursor-pointer">
+          <a href="/profil" class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-linear-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-xs font-semibold shadow-sm">
+              <span id="user-initials"></span>
+            </div>
+            <span id="user-name" class="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors"></span>
+          </a>
+          <button id="logout-btn" class="ml-2 p-1.5 hover:bg-red-50 rounded-full transition-colors group" title="Se déconnecter">
+            <svg class="w-4 h-4 text-gray-400 group-hover:text-red-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <script type="module">
+    const { pb } = await import('/src/lib/pb.js');
+
+    const loginLink = document.getElementById('login-link');
+    const cartLink = document.getElementById('cart-link');
+    const cartBadge = document.getElementById('cart-badge');
+    const userInfo = document.getElementById('user-info');
+    const userName = document.getElementById('user-name');
+    const userInitials = document.getElementById('user-initials');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    // Highlight current page in navigation
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // Only highlight if we're on one of the navigation pages
+    const navPages = ['/configurateur', '/apercu', '/creations'];
+    const shouldHighlight = navPages.includes(currentPath);
+    
+    navLinks.forEach(link => {
+      const linkPath = link.getAttribute('data-page');
+      
+      // Only set active state if we're on a nav page
+      if (shouldHighlight && currentPath === linkPath) {
+        link.classList.add('text-gray-900');
+        link.classList.remove('text-gray-500');
+        const indicator = link.querySelector('.nav-indicator');
+        if (indicator) {
+          indicator.style.width = '100%';
+        }
+      }
+      
+      // Hover effect
+      link.addEventListener('mouseenter', () => {
+        const indicator = link.querySelector('.nav-indicator');
+        if (indicator) {
+          indicator.style.width = '100%';
+        }
+      });
+      
+      link.addEventListener('mouseleave', () => {
+        const linkPath = link.getAttribute('data-page');
+        const indicator = link.querySelector('.nav-indicator');
+        if (indicator) {
+          // Only keep highlighted if we're on that page
+          if (shouldHighlight && currentPath === linkPath) {
+            indicator.style.width = '100%';
+          } else {
+            indicator.style.width = '0';
+          }
+        }
+      });
+    });
+
+    // Fonction pour mettre à jour le badge du panier
+    function updateCartBadge() {
+      // Get user-specific cart key
+      const userId = pb.authStore.model?.id;
+      const cartKey = `cart_${userId}`;
+      const cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+      const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      
+      if (itemCount > 0) {
+        cartBadge.textContent = itemCount;
+        cartBadge.classList.remove('hidden');
+      } else {
+        cartBadge.classList.add('hidden');
+      }
+    }
+
+    // Vérifier si l'utilisateur est connecté
+    if (pb.authStore.isValid) {
+      // Afficher le nom de l'utilisateur
+      const user = pb.authStore.model;
+      const displayName = user.name || user.email;
+      userName.textContent = displayName;
+      
+      // Générer les initiales (ex: "Jean Dupont" → "JD")
+      const nameParts = displayName.split(' ');
+      let initials = '';
+      if (nameParts.length >= 2) {
+        initials = nameParts[0][0] + nameParts[1][0];
+      } else if (nameParts.length === 1) {
+        initials = nameParts[0].substring(0, 2);
+      } else {
+        initials = displayName.substring(0, 2);
+      }
+      userInitials.textContent = initials.toUpperCase();
+      
+      // Masquer le lien "Se connecter" et afficher les infos utilisateur + panier
+      loginLink.classList.add('hidden');
+      cartLink.classList.remove('hidden');
+      userInfo.classList.remove('hidden');
+      userInfo.classList.add('flex');
+      
+      // Mettre à jour le badge du panier
+      updateCartBadge();
+      
+      // Écouter les changements du localStorage pour mettre à jour le badge
+      window.addEventListener('storage', updateCartBadge);
+      window.addEventListener('cartUpdated', updateCartBadge);
+    }
+
+    // Gérer la déconnexion
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        pb.authStore.clear();
+        location.reload();
+      });
+    }
+  </script>

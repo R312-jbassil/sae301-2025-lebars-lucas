@@ -1,0 +1,850 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LunettesViewer from "../components/LunettesViewer.astro";
+
+const sizes = [
+	{ label: "S", value: "280mm", price: 0 },
+	{ label: "M", value: "350mm", price: 0 },
+	{ label: "L", value: "420mm", price: 5 }
+];
+
+const montureColors = [
+	{ name: "Noir", hex: "#000000", material: "Acétate", price: 0 },
+	{ name: "Beige Rosé", hex: "#D4A598", material: "Acétate", price: 0 },
+	{ name: "Bleu Nuit", hex: "#1E3A5F", material: "Acétate", price: 0 },
+	{ name: "Gris", hex: "#8B8B8B", material: "Aluminum", price: 15 },
+	{ name: "Blanc", hex: "#FFFFFF", material: "Acétate", price: 0 },
+	{ name: "Marron", hex: "#5D4037", material: "Bois", price: 25 }
+];
+
+const branchesColors = [
+	{ name: "Gris Clair", hex: "#D3D3D3", material: "Gunmetal", price: 0 },
+	{ name: "Noir", hex: "#000000", material: "Acier", price: 5 },
+	{ name: "Marron Foncé", hex: "#3E2723", material: "Bois", price: 20 },
+	{ name: "Graphite", hex: "#4A4A4A", material: "Titane", price: 30 },
+	{ name: "Ardoise", hex: "#5F6368", material: "Acier", price: 5 },
+	{ name: "Bleu", hex: "#0066FF", material: "Acier", price: 5 }
+];
+
+const verresColors = [
+	{ name: "Transparent", hex: "#E0F2FF", type: "Classique", price: 0 },
+	{ name: "Crème", hex: "#F5F5DC", type: "Anti-lumière bleue", price: 25 },
+	{ name: "Vert Olive", hex: "#556B2F", type: "Solaire", price: 35 },
+	{ name: "Marron", hex: "#8B4513", type: "Solaire", price: 35 },
+	{ name: "Gris", hex: "#A9A9A9", type: "Photochromique", price: 50 },
+	{ name: "Bleu", hex: "#4A90E2", type: "Polarisé", price: 45 }
+];
+---
+
+<Layout>
+	
+	<!-- TABS NAVIGATION -->
+	<section class="bg-white border-b border-gray-200 sticky top-14 z-30">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="flex gap-1 -mb-px">
+				<button id="tab-manual" class="tab-btn active px-6 py-4 text-sm font-medium border-b-2 border-blue-600 text-blue-600 hover:text-blue-700 transition-colors">
+					<span class="flex items-center gap-2">
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+						</svg>
+						Configurateur Manuel
+					</span>
+				</button>
+					<button id="tab-ai" class="tab-btn px-6 py-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors">
+					<span class="flex items-center gap-2">
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+						</svg>
+						Création IA
+						<span class="px-2 py-0.5 text-xs font-semibold bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-full">Nouveau</span>
+					</span>
+				</button>
+			</div>
+		</div>
+	</section>
+
+	<!-- TAB CONTENT: MANUAL CONFIGURATOR -->
+	<section id="content-manual" class="tab-content min-h-screen bg-gray-50 py-8">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="grid lg:grid-cols-[1fr_400px] gap-8 items-start">
+				
+				<!-- LEFT: 3D VIEWER -->
+				<div class="relative">
+					<div class="h-[600px] w-full">
+						<LunettesViewer />
+					</div>
+					
+					<!-- SUMMARY BOX -->
+					<div class="mt-6 bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+						<h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Résumé de Configuration</h3>
+						<dl class="space-y-3 text-sm">
+							<div class="flex justify-between items-center">
+								<dt class="text-gray-600">Taille:</dt>
+								<dd class="text-right">
+									<div id="summary-size" class="font-medium text-gray-900">Medium - 350mm</div>
+									<div id="summary-size-price" class="text-xs text-blue-600 font-semibold"></div>
+								</dd>
+							</div>
+							<div class="flex justify-between items-center">
+								<dt class="text-gray-600">Monture:</dt>
+								<dd class="text-right">
+									<div id="summary-monture" class="font-medium text-gray-900">Aluminum</div>
+									<div id="summary-monture-price" class="text-xs text-blue-600 font-semibold">+15€</div>
+								</dd>
+							</div>
+							<div class="flex justify-between items-center">
+								<dt class="text-gray-600">Branches:</dt>
+								<dd class="text-right">
+									<div id="summary-branches" class="font-medium text-gray-900">Gunmetal</div>
+									<div id="summary-branches-price" class="text-xs text-blue-600 font-semibold"></div>
+								</dd>
+							</div>
+							<div class="flex justify-between items-center">
+								<dt class="text-gray-600">Verres:</dt>
+								<dd class="text-right">
+									<div id="summary-verres" class="font-medium text-gray-900">Classique</div>
+									<div id="summary-verres-price" class="text-xs text-blue-600 font-semibold"></div>
+								</dd>
+							</div>
+						</dl>
+						<div class="mt-4 pt-4 border-t border-gray-200">
+							<div class="flex justify-between items-center">
+								<span class="text-sm font-semibold text-gray-900">Prix estimé:</span>
+								<span id="summary-total-price" class="text-lg font-bold text-blue-600">104,99 €</span>
+							</div>
+							<p class="text-xs text-gray-500 mt-1">Base: 89,99 €</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- RIGHT: CONTROL PANEL -->
+				<div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm sticky top-24">
+					<h2 class="text-2xl font-semibold text-gray-900 mb-2">Panneau de Contrôle</h2>
+					<p class="text-sm text-gray-500 mb-6">Personnalisez chaque aspect de votre monture avec précision architecturale</p>
+
+					<!-- SIZE SELECTOR -->
+					<div class="mb-8">
+						<h3 class="text-sm font-semibold text-gray-900 mb-3">Taille de la Monture</h3>
+						<p class="text-xs text-gray-500 mb-3">Sélectionnez les dimensions optimales</p>
+						<div class="flex gap-3">
+							{sizes.map((size, idx) => (
+								<button
+									data-size={size.label}
+									data-value={size.value}
+									data-price={size.price}
+									class={`size-btn flex-1 px-4 py-3 rounded-lg border-2 transition-all ${idx === 1 ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}`}
+								>
+									<div class="text-lg font-bold text-gray-900">{size.label}</div>
+									<div class="text-xs text-gray-500">{size.value}</div>
+									{size.price > 0 && <div class="text-xs text-blue-600 font-semibold mt-1">+{size.price}€</div>}
+								</button>
+							))}
+						</div>
+					</div>
+
+					<!-- MONTURE COLORS -->
+					<div class="mb-8">
+						<h3 class="text-sm font-semibold text-gray-900 mb-3">Matériaux de la Monture</h3>
+						<p class="text-xs text-gray-500 mb-3">Définissez la matière du cadre principal</p>
+						<div class="grid grid-cols-6 gap-3">
+							{montureColors.map((color, idx) => (
+								<button
+									data-color={color.hex}
+									data-name={color.name}
+									data-material={color.material}
+									data-price={color.price}
+									class={`monture-btn w-full aspect-square rounded-full border-2 transition-all hover:scale-110 ${idx === 3 ? 'ring-2 ring-blue-600 ring-offset-2' : 'border-gray-300'}`}
+									style={`background-color: ${color.hex};`}
+									title={`${color.name} - ${color.material} ${color.price > 0 ? `(+${color.price}€)` : ''}`}
+								/>
+							))}
+						</div>
+					</div>
+
+					<!-- BRANCHES COLORS -->
+					<div class="mb-8">
+						<h3 class="text-sm font-semibold text-gray-900 mb-3">Matériaux des Branches</h3>
+						<p class="text-xs text-gray-500 mb-3">Choisissez la finition des branches latérales</p>
+						<div class="grid grid-cols-6 gap-3">
+							{branchesColors.map((color, idx) => (
+								<button
+									data-color={color.hex}
+									data-name={color.name}
+									data-material={color.material}
+									data-price={color.price}
+									class={`branches-btn w-full aspect-square rounded-full border-2 transition-all hover:scale-110 ${idx === 0 ? 'ring-2 ring-blue-600 ring-offset-2' : 'border-gray-300'}`}
+									style={`background-color: ${color.hex};`}
+									title={`${color.name} - ${color.material} ${color.price > 0 ? `(+${color.price}€)` : ''}`}
+								/>
+							))}
+						</div>
+					</div>
+
+					<!-- VERRES COLORS -->
+					<div class="mb-8">
+						<h3 class="text-sm font-semibold text-gray-900 mb-3">Teinte des Verres</h3>
+						<p class="text-xs text-gray-500 mb-3">Sélectionnez la teinte et le traitement des verres</p>
+						<div class="grid grid-cols-6 gap-3">
+							{verresColors.map((color, idx) => (
+								<button
+									data-color={color.hex}
+									data-name={color.name}
+									data-type={color.type}
+									data-price={color.price}
+									class={`verres-btn w-full aspect-square rounded-full border-2 transition-all hover:scale-110 ${idx === 0 ? 'ring-2 ring-blue-600 ring-offset-2' : 'border-gray-300'}`}
+									style={`background-color: ${color.hex};`}
+									title={`${color.name} - ${color.type} ${color.price > 0 ? `(+${color.price}€)` : ''}`}
+								/>
+							))}
+						</div>
+					</div>
+
+					<!-- ACTIONS -->
+					<div class="flex gap-3 pt-4 border-t border-gray-200">
+						<button id="reset-btn" class="flex-1 px-4 py-3 rounded-full border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+							Réinitialiser
+						</button>
+						<button id="continue-btn" class="flex-1 px-4 py-3 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+							→ Continuer
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	<!-- TAB CONTENT: AI CREATION -->
+	<section id="content-ai" class="tab-content hidden min-h-screen bg-linear-to-br from-gray-50 via-blue-50/30 to-purple-50/30 py-8">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			
+			<!-- Header -->
+			<div class="text-center mb-12">
+				<div class="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-full text-sm font-semibold mb-4 shadow-lg">
+					<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+					</svg>
+					Intelligence Artificielle
+				</div>
+				<h1 class="text-4xl font-bold text-gray-900 mb-3">Créez vos lunettes avec l'IA</h1>
+				<p class="text-lg text-gray-600 max-w-2xl mx-auto">Décrivez simplement vos envies et laissez notre IA créer des lunettes uniques pour vous</p>
+			</div>
+
+			<div class="grid lg:grid-cols-2 gap-8 items-start">
+				
+				<!-- LEFT: AI PROMPT & CONTROLS -->
+				<div class="space-y-6">
+					
+					<!-- Prompt Card -->
+					<div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+						<div class="flex items-center gap-2 mb-4">
+							<div class="w-10 h-10 bg-linear-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+								<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+								</svg>
+							</div>
+							<div>
+								<h2 class="text-lg font-semibold text-gray-900">Décrivez les couleurs souhaitées</h2>
+								<p class="text-sm text-gray-500">L'IA génèrera une palette harmonieuse</p>
+							</div>
+						</div>
+						
+						<textarea 
+							id="ai-prompt"
+							placeholder="Ex: Monture noir mat élégante, branches cuivre brossé, verres ambre fumé..."
+							class="w-full h-40 px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none transition-all"
+						></textarea>
+
+						<!-- Suggestions -->
+						<div class="mt-4">
+							<p class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">Palettes populaires</p>
+							<div class="flex flex-wrap gap-2">
+								<button class="prompt-suggestion px-3 py-1.5 text-xs bg-purple-50 text-purple-700 rounded-full hover:bg-purple-100 transition-colors">
+									Noir et or
+								</button>
+								<button class="prompt-suggestion px-3 py-1.5 text-xs bg-blue-50 text-blue-700 rounded-full hover:bg-blue-100 transition-colors">
+									Argent et bleu
+								</button>
+								<button class="prompt-suggestion px-3 py-1.5 text-xs bg-pink-50 text-pink-700 rounded-full hover:bg-pink-100 transition-colors">
+									Rose et blanc
+								</button>
+								<button class="prompt-suggestion px-3 py-1.5 text-xs bg-indigo-50 text-indigo-700 rounded-full hover:bg-indigo-100 transition-colors">
+									Écaille et marron
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<!-- AI Options -->
+					<div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+						<h3 class="text-sm font-semibold text-gray-900 mb-4">Options de génération</h3>
+						
+						<!-- AI Model Selection -->
+						<div>
+							<label for="ai-model-select" class="block text-sm font-medium text-gray-700 mb-2">Modèle d'IA</label>
+							<select id="ai-model-select" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500">
+								<option value="gpt-4o-mini">GPT-4o Mini (Recommandé)</option>
+								<option value="gpt-4o">GPT-4o (Premium)</option>
+								<option value="claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+								<option value="deepseek-coder">DeepSeek Coder</option>
+								<option value="qwen-coder">Qwen 2.5 Coder</option>
+								<option value="codellama">CodeLlama 34B</option>
+								<option value="mistral-7b">Mistral 7B (Gratuit)</option>
+								<option value="llama-3.1">Llama 3.1 8B (Gratuit)</option>
+							</select>
+							<p class="mt-2 text-xs text-gray-500">Choisissez le modèle pour générer votre palette de couleurs</p>
+						</div>
+					</div>
+
+					<!-- Generate Button -->
+					<button id="generate-btn" class="w-full py-4 bg-linear-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+						</svg>
+						Générer avec l'IA
+					</button>
+
+				</div>
+
+				<!-- RIGHT: 3D PREVIEW & RESULTS -->
+				<div class="space-y-6">
+					
+					<!-- Preview Card -->
+					<div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+						<h3 class="text-sm font-semibold text-gray-900 mb-4">Aperçu 3D</h3>
+						
+						<!-- Placeholder / 3D Viewer -->
+						<div id="ai-preview-placeholder" class="aspect-video bg-linear-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center">
+							<div class="text-center">
+								<div class="w-20 h-20 mx-auto mb-4 bg-white rounded-full flex items-center justify-center shadow-sm">
+									<svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+									</svg>
+								</div>
+								<p class="text-sm font-medium text-gray-600">En attente de génération</p>
+								<p class="text-xs text-gray-400 mt-1">Décrivez vos lunettes et cliquez sur "Générer"</p>
+							</div>
+						</div>
+						<!-- 3D Viewer (shown after generation) -->
+						<div id="ai-viewer-container" class="hidden aspect-video">
+							<LunettesViewer />
+						</div>
+					</div>
+
+					<!-- Generated Info -->
+					<div id="ai-result-info" class="hidden bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+						<h3 class="text-sm font-semibold text-gray-900 mb-4">Configuration générée</h3>
+						
+						<dl class="space-y-3 text-sm">
+							<div class="flex justify-between">
+								<dt class="text-gray-600">Monture:</dt>
+								<dd id="ai-monture" class="font-medium text-gray-900">—</dd>
+							</div>
+							<div class="flex justify-between">
+								<dt class="text-gray-600">Branches:</dt>
+								<dd id="ai-branches" class="font-medium text-gray-900">—</dd>
+							</div>
+							<div class="flex justify-between">
+								<dt class="text-gray-600">Verres:</dt>
+								<dd id="ai-verres" class="font-medium text-gray-900">—</dd>
+							</div>
+							<div class="flex justify-between pt-3 border-t border-gray-200">
+								<dt class="font-semibold text-gray-900">Prix estimé:</dt>
+								<dd id="ai-price" class="text-lg font-bold text-purple-600">89,99 €</dd>
+							</div>
+						</dl>
+
+						<div class="mt-6 flex gap-3">
+							<button id="ai-regenerate-btn" class="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+								Régénérer
+							</button>
+							<button id="ai-continue-btn" class="flex-1 px-4 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors">
+								Continuer
+							</button>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<script>
+	// Configuration state
+	let currentConfig = {
+		size: 'M',
+		sizeValue: '350mm',
+		sizePrice: 0,
+		montureColor: '#8B8B8B',
+		montureName: 'Gris',
+		montureMaterial: 'Aluminum',
+		monturePrice: 15,
+		branchesColor: '#D3D3D3',
+		branchesName: 'Gris Clair',
+		branchesMaterial: 'Gunmetal',
+		branchesPrice: 0,
+		verresColor: '#E0F2FF',
+		verresName: 'Transparent',
+		verresType: 'Classique',
+		verresPrice: 0
+	};
+
+	// Size selection
+	const sizeButtons = document.querySelectorAll('.size-btn');
+	const summarySize = document.getElementById('summary-size');
+	
+	sizeButtons.forEach(btn => {
+		btn.addEventListener('click', () => {
+			sizeButtons.forEach(b => {
+				b.classList.remove('border-blue-600', 'bg-blue-50');
+				b.classList.add('border-gray-200');
+			});
+			btn.classList.add('border-blue-600', 'bg-blue-50');
+			btn.classList.remove('border-gray-200');
+			
+			const size = (btn as HTMLElement).dataset.size || 'M';
+			const value = (btn as HTMLElement).dataset.value || '350mm';
+			const price = parseInt((btn as HTMLElement).dataset.price || '0');
+			
+			currentConfig.size = size;
+			currentConfig.sizeValue = value;
+			currentConfig.sizePrice = price;
+			
+			if (summarySize) {
+				const labels: Record<string, string> = { 'S': 'Small', 'M': 'Medium', 'L': 'Large' };
+				summarySize.textContent = `${labels[size]} - ${value}`;
+			}
+			
+			const summarySizePrice = document.getElementById('summary-size-price');
+			if (summarySizePrice) {
+				summarySizePrice.textContent = price > 0 ? `+${price}€` : '';
+			}
+			
+			updateTotalPrice();
+		});
+	});
+
+	// Monture color selection
+	const montureButtons = document.querySelectorAll('.monture-btn');
+	const montureElements = document.querySelectorAll('.lunettes-monture');
+	const summaryMonture = document.getElementById('summary-monture');
+	
+	montureButtons.forEach(btn => {
+		btn.addEventListener('click', () => {
+			montureButtons.forEach(b => {
+				b.classList.remove('ring-2', 'ring-blue-600', 'ring-offset-2');
+			});
+			btn.classList.add('ring-2', 'ring-blue-600', 'ring-offset-2');
+			
+			const color = (btn as HTMLElement).dataset.color || '#8B8B8B';
+			const name = (btn as HTMLElement).dataset.name || 'Gris';
+			const material = (btn as HTMLElement).dataset.material || 'Aluminum';
+			const price = parseInt((btn as HTMLElement).dataset.price || '0');
+			
+			currentConfig.montureColor = color;
+			currentConfig.montureName = name;
+			currentConfig.montureMaterial = material;
+			currentConfig.monturePrice = price;
+			
+			montureElements.forEach(el => {
+				(el as SVGElement).style.fill = color || '#8B8B8B';
+			});
+			if (summaryMonture && material) {
+				summaryMonture.textContent = material;
+			}
+			
+			const summaryMonturePrice = document.getElementById('summary-monture-price');
+			if (summaryMonturePrice) {
+				summaryMonturePrice.textContent = price > 0 ? `+${price}€` : '';
+			}
+			
+			updateTotalPrice();
+		});
+	});
+
+	// Branches color selection
+	const branchesButtons = document.querySelectorAll('.branches-btn');
+	const branchesElements = document.querySelectorAll('.lunettes-branches');
+	const summaryBranches = document.getElementById('summary-branches');
+	
+	branchesButtons.forEach(btn => {
+		btn.addEventListener('click', () => {
+			branchesButtons.forEach(b => {
+				b.classList.remove('ring-2', 'ring-blue-600', 'ring-offset-2');
+			});
+			btn.classList.add('ring-2', 'ring-blue-600', 'ring-offset-2');
+			
+			const color = (btn as HTMLElement).dataset.color || '#D3D3D3';
+			const name = (btn as HTMLElement).dataset.name || 'Gris Clair';
+			const material = (btn as HTMLElement).dataset.material || 'Gunmetal';
+			const price = parseInt((btn as HTMLElement).dataset.price || '0');
+			
+			currentConfig.branchesColor = color;
+			currentConfig.branchesName = name;
+			currentConfig.branchesMaterial = material;
+			currentConfig.branchesPrice = price;
+			
+			branchesElements.forEach(el => {
+				(el as SVGElement).style.fill = color || '#D3D3D3';
+			});
+			if (summaryBranches && material) {
+				summaryBranches.textContent = material;
+			}
+			
+			const summaryBranchesPrice = document.getElementById('summary-branches-price');
+			if (summaryBranchesPrice) {
+				summaryBranchesPrice.textContent = price > 0 ? `+${price}€` : '';
+			}
+			
+			updateTotalPrice();
+		});
+	});
+
+	// Verres color selection
+	const verresButtons = document.querySelectorAll('.verres-btn');
+	const verresElements = document.querySelectorAll('.lunettes-verres');
+	const summaryVerres = document.getElementById('summary-verres');
+	
+	verresButtons.forEach(btn => {
+		btn.addEventListener('click', () => {
+			verresButtons.forEach(b => {
+				b.classList.remove('ring-2', 'ring-blue-600', 'ring-offset-2');
+			});
+			btn.classList.add('ring-2', 'ring-blue-600', 'ring-offset-2');
+			
+			const color = (btn as HTMLElement).dataset.color || '#E0F2FF';
+			const name = (btn as HTMLElement).dataset.name || 'Transparent';
+			const type = (btn as HTMLElement).dataset.type || 'Classique';
+			const price = parseInt((btn as HTMLElement).dataset.price || '0');
+			
+			currentConfig.verresColor = color;
+			currentConfig.verresName = name;
+			currentConfig.verresType = type;
+			currentConfig.verresPrice = price;
+			
+			verresElements.forEach(el => {
+				(el as SVGElement).style.fill = color || '#E0F2FF';
+			});
+			if (summaryVerres && type) {
+				summaryVerres.textContent = type;
+			}
+			
+			const summaryVerresPrice = document.getElementById('summary-verres-price');
+			if (summaryVerresPrice) {
+				summaryVerresPrice.textContent = price > 0 ? `+${price}€` : '';
+			}
+			
+			updateTotalPrice();
+		});
+	});
+
+	// Update total price in summary
+	function updateTotalPrice() {
+		const BASE_PRICE = 89.99;
+		const total = BASE_PRICE + 
+			(currentConfig.sizePrice || 0) + 
+			(currentConfig.monturePrice || 0) + 
+			(currentConfig.branchesPrice || 0) + 
+			(currentConfig.verresPrice || 0);
+		
+		const summaryTotalPrice = document.getElementById('summary-total-price');
+		if (summaryTotalPrice) {
+			summaryTotalPrice.textContent = `${total.toFixed(2)} €`;
+		}
+	}
+
+	// Continue button - save config and go to aperçu
+	const continueBtn = document.getElementById('continue-btn');
+	if (continueBtn) {
+		continueBtn.addEventListener('click', () => {
+			localStorage.setItem('currentConfig', JSON.stringify(currentConfig));
+			window.location.href = '/apercu';
+		});
+	}
+
+	// Reset button
+	const resetBtn = document.getElementById('reset-btn');
+	if (resetBtn) {
+		resetBtn.addEventListener('click', () => {
+			// Reset sizes
+			sizeButtons.forEach((b, i) => {
+				b.classList.remove('border-blue-600', 'bg-blue-50');
+				b.classList.add('border-gray-200');
+				if (i === 1) {
+					b.classList.add('border-blue-600', 'bg-blue-50');
+					b.classList.remove('border-gray-200');
+				}
+			});
+			
+			// Reset monture
+			montureButtons.forEach((b, i) => {
+				b.classList.remove('ring-2', 'ring-blue-600', 'ring-offset-2');
+				if (i === 3) b.classList.add('ring-2', 'ring-blue-600', 'ring-offset-2');
+			});
+			montureElements.forEach(el => (el as SVGElement).style.fill = '#8B8B8B');
+			
+			// Reset branches
+			branchesButtons.forEach((b, i) => {
+				b.classList.remove('ring-2', 'ring-blue-600', 'ring-offset-2');
+				if (i === 0) b.classList.add('ring-2', 'ring-blue-600', 'ring-offset-2');
+			});
+			branchesElements.forEach(el => (el as SVGElement).style.fill = '#D3D3D3');
+			
+			// Reset verres
+			verresButtons.forEach((b, i) => {
+				b.classList.remove('ring-2', 'ring-blue-600', 'ring-offset-2');
+				if (i === 0) b.classList.add('ring-2', 'ring-blue-600', 'ring-offset-2');
+			});
+			verresElements.forEach(el => (el as SVGElement).style.fill = '#E0F2FF');
+			
+			// Reset summary
+			if (summarySize) summarySize.textContent = 'Medium - 350mm';
+			if (summaryMonture) summaryMonture.textContent = 'Aluminum';
+			if (summaryBranches) summaryBranches.textContent = 'Gunmetal';
+			if (summaryVerres) summaryVerres.textContent = 'Classique';
+			
+			// Reset prices
+			const summarySizePrice = document.getElementById('summary-size-price');
+			const summaryMonturePrice = document.getElementById('summary-monture-price');
+			const summaryBranchesPrice = document.getElementById('summary-branches-price');
+			const summaryVerresPrice = document.getElementById('summary-verres-price');
+			
+			if (summarySizePrice) summarySizePrice.textContent = '';
+			if (summaryMonturePrice) summaryMonturePrice.textContent = '+15€';
+			if (summaryBranchesPrice) summaryBranchesPrice.textContent = '';
+			if (summaryVerresPrice) summaryVerresPrice.textContent = '';
+			
+			// Reset config state
+			currentConfig = {
+				size: 'M',
+				sizeValue: '350mm',
+				sizePrice: 0,
+				montureColor: '#8B8B8B',
+				montureName: 'Gris',
+				montureMaterial: 'Aluminum',
+				monturePrice: 15,
+				branchesColor: '#D3D3D3',
+				branchesName: 'Gris Clair',
+				branchesMaterial: 'Gunmetal',
+				branchesPrice: 0,
+				verresColor: '#E0F2FF',
+				verresName: 'Transparent',
+				verresType: 'Classique',
+				verresPrice: 0
+			};
+			
+			updateTotalPrice();
+		});
+	}
+
+	// ========================================
+	// TAB SWITCHING LOGIC
+	// ========================================
+	const tabManual = document.getElementById('tab-manual');
+	const tabAI = document.getElementById('tab-ai');
+	const contentManual = document.getElementById('content-manual');
+	const contentAI = document.getElementById('content-ai');
+
+	function switchTab(tab: 'manual' | 'ai') {
+		if (tab === 'manual') {
+			// Activate manual tab
+			tabManual?.classList.add('active', 'border-blue-600', 'text-blue-600');
+			tabManual?.classList.remove('border-transparent', 'text-gray-500');
+			tabAI?.classList.remove('active', 'border-blue-600', 'text-blue-600');
+			tabAI?.classList.add('border-transparent', 'text-gray-500');
+			
+			// Show manual content
+			contentManual?.classList.remove('hidden');
+			contentAI?.classList.add('hidden');
+		} else {
+			// Activate AI tab
+			tabAI?.classList.add('active', 'border-blue-600', 'text-blue-600');
+			tabAI?.classList.remove('border-transparent', 'text-gray-500');
+			tabManual?.classList.remove('active', 'border-blue-600', 'text-blue-600');
+			tabManual?.classList.add('border-transparent', 'text-gray-500');
+			
+			// Show AI content
+			contentAI?.classList.remove('hidden');
+			contentManual?.classList.add('hidden');
+		}
+	}
+
+	tabManual?.addEventListener('click', () => switchTab('manual'));
+	tabAI?.addEventListener('click', () => switchTab('ai'));
+
+	// ========================================
+	// AI TAB INTERACTIONS
+	// ========================================
+	const aiPrompt = document.getElementById('ai-prompt') as HTMLTextAreaElement;
+	const generateBtn = document.getElementById('generate-btn');
+	const promptSuggestions = document.querySelectorAll('.prompt-suggestion');
+
+	// Prompt suggestions
+	promptSuggestions.forEach(btn => {
+		btn.addEventListener('click', () => {
+			const suggestion = btn.textContent?.trim() || '';
+			if (aiPrompt) {
+				aiPrompt.value += (aiPrompt.value ? ', ' : '') + suggestion.toLowerCase();
+				aiPrompt.focus();
+			}
+		});
+	});
+
+	// AI state
+	let aiGeneratedConfig: any = null;
+
+	// Generate button - Call AI API
+	generateBtn?.addEventListener('click', async () => {
+		const prompt = aiPrompt?.value.trim();
+		
+		if (!prompt) {
+			alert('⚠️ Veuillez décrire les couleurs souhaitées avant de générer');
+			return;
+		}
+
+		// Get selected model
+		const modelSelect = document.getElementById('ai-model-select') as HTMLSelectElement;
+		const model = modelSelect?.value || 'gpt-4o-mini';
+
+		// Show loading state
+		const btn = generateBtn as HTMLButtonElement;
+		const originalHTML = btn.innerHTML;
+		btn.innerHTML = `
+			<svg class="w-6 h-6 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+			</svg>
+			Génération en cours...
+		`;
+		btn.disabled = true;
+
+		try {
+			// Call AI API
+			const response = await fetch('/api/generateGlasses', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					prompt,
+					model
+				})
+			});
+
+			const data = await response.json();
+			console.log('AI API response:', data);
+
+			if (data.success && data.config) {
+				aiGeneratedConfig = data.config;
+				displayAIResult(data.config);
+			} else {
+				const msg = data?.error ? `Erreur de génération: ${data.error}` : 'Erreur de génération';
+				throw new Error(msg);
+			}
+
+		} catch (error) {
+			console.error('AI Generation Error:', error);
+			alert(`❌ ${error instanceof Error ? error.message : 'Erreur lors de la génération.'}\n\nAstuce: vérifiez vos variables OR_TOKEN ou HF_TOKEN.`);
+		} finally {
+			// Reset button
+			btn.innerHTML = originalHTML;
+			btn.disabled = false;
+		}
+	});
+
+	// Display AI generated result
+	function displayAIResult(config: any) {
+		// Update preview area
+		const placeholder = document.getElementById('ai-preview-placeholder');
+		const viewerContainer = document.getElementById('ai-viewer-container');
+		if (placeholder) placeholder.classList.add('hidden');
+		if (viewerContainer) viewerContainer.classList.remove('hidden');
+
+		// Update result info
+		const resultInfo = document.getElementById('ai-result-info');
+		if (resultInfo) resultInfo.classList.remove('hidden');
+
+		// Update material names
+		const aiMonture = document.getElementById('ai-monture');
+		const aiBranches = document.getElementById('ai-branches');
+		const aiVerres = document.getElementById('ai-verres');
+		const aiPrice = document.getElementById('ai-price');
+
+		if (aiMonture) aiMonture.textContent = `${config.monture.material} ${config.monture.color}`;
+		if (aiBranches) aiBranches.textContent = `${config.branches.material} ${config.branches.color}`;
+		if (aiVerres) aiVerres.textContent = `${config.verres.type} ${config.verres.color}`;
+		if (aiPrice) aiPrice.textContent = `${config.totalPrice.toFixed(2)} €`;
+
+		// Apply colors to 3D viewer (if available)
+		applyAIColorsToViewer(config);
+	}
+
+	// Apply AI colors to 3D viewer
+	function applyAIColorsToViewer(config: any) {
+		// Target the correct SVG elements by class
+		const montureElements = document.querySelectorAll('.lunettes-monture');
+		const branchesElements = document.querySelectorAll('.lunettes-branches');
+		const verresElements = document.querySelectorAll('.lunettes-verres');
+
+		console.log('Applying AI colors:', config);
+		console.log('Found monture elements:', montureElements.length);
+		console.log('Found branches elements:', branchesElements.length);
+		console.log('Found verres elements:', verresElements.length);
+
+		montureElements.forEach(el => {
+			(el as SVGElement).style.fill = config.monture.color;
+		});
+		branchesElements.forEach(el => {
+			(el as SVGElement).style.fill = config.branches.color;
+		});
+		verresElements.forEach(el => {
+			(el as SVGElement).style.fill = config.verres.color;
+		});
+	}
+
+	// Regenerate button
+	const aiRegenerateBtn = document.getElementById('ai-regenerate-btn');
+	aiRegenerateBtn?.addEventListener('click', () => {
+		// Reset and trigger new generation
+		const resultInfo = document.getElementById('ai-result-info');
+		if (resultInfo) resultInfo.classList.add('hidden');
+		
+		const placeholder = document.getElementById('ai-preview-placeholder');
+		const viewerContainer = document.getElementById('ai-viewer-container');
+		if (placeholder) placeholder.classList.remove('hidden');
+		if (viewerContainer) viewerContainer.classList.add('hidden');
+		
+		generateBtn?.click();
+	});
+
+	// Continue button - Save to localStorage and go to apercu
+	const aiContinueBtn = document.getElementById('ai-continue-btn');
+	aiContinueBtn?.addEventListener('click', () => {
+		if (!aiGeneratedConfig) {
+			alert('❌ Aucune configuration générée');
+			return;
+		}
+
+		// Convert AI config to manual config format
+		const configForStorage = {
+			size: aiGeneratedConfig.size,
+			sizeValue: aiGeneratedConfig.size === 'S' ? '330mm' : aiGeneratedConfig.size === 'L' ? '370mm' : '350mm',
+			sizePrice: aiGeneratedConfig.sizePrice,
+			montureColor: aiGeneratedConfig.monture.color,
+			montureName: 'IA Généré',
+			montureMaterial: aiGeneratedConfig.monture.material,
+			monturePrice: aiGeneratedConfig.monture.price,
+			branchesColor: aiGeneratedConfig.branches.color,
+			branchesName: 'IA Généré',
+			branchesMaterial: aiGeneratedConfig.branches.material,
+			branchesPrice: aiGeneratedConfig.branches.price,
+			verresColor: aiGeneratedConfig.verres.color,
+			verresName: 'IA Généré',
+			verresType: aiGeneratedConfig.verres.type,
+			verresPrice: aiGeneratedConfig.verres.price
+		};
+
+		localStorage.setItem('currentConfig', JSON.stringify(configForStorage));
+		window.location.href = '/apercu';
+	});
+</script>

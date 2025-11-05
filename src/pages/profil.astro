@@ -1,0 +1,310 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+	<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+		<div class="max-w-4xl mx-auto">
+			
+			<!-- Header de la page -->
+			<div class="mb-8">
+				<h1 class="text-3xl font-bold text-gray-900">Mon Profil</h1>
+				<p class="text-gray-600 mt-2">Gérez vos informations personnelles et vos créations</p>
+			</div>
+
+			<!-- Grid 2 colonnes -->
+			<div class="grid lg:grid-cols-3 gap-6">
+				
+				<!-- Colonne gauche : Informations du compte -->
+				<div class="lg:col-span-2 space-y-6">
+					
+					<!-- Card Informations personnelles -->
+					<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+						<div class="flex items-center justify-between mb-6">
+							<h2 class="text-xl font-semibold text-gray-900">Informations personnelles</h2>
+							<button id="edit-toggle" class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+								Modifier
+							</button>
+						</div>
+
+						<form id="profile-form" class="space-y-4">
+							<!-- Prénom et Nom -->
+							<div class="grid grid-cols-2 gap-4">
+								<div>
+									<label for="prenom" class="block text-sm font-medium text-gray-700 mb-2">
+										Prénom
+									</label>
+									<input
+										type="text"
+										id="prenom"
+										name="prenom"
+										disabled
+										class="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-900 disabled:bg-gray-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+									/>
+								</div>
+								<div>
+									<label for="nom" class="block text-sm font-medium text-gray-700 mb-2">
+										Nom
+									</label>
+									<input
+										type="text"
+										id="nom"
+										name="nom"
+										disabled
+										class="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-900 disabled:bg-gray-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+									/>
+								</div>
+							</div>
+
+							<!-- Email -->
+							<div>
+								<label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+									Adresse e-mail
+								</label>
+								<input
+									type="email"
+									id="email"
+									name="email"
+									disabled
+									class="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-gray-900 disabled:bg-gray-100 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all"
+								/>
+							</div>
+
+							<!-- Boutons d'action (cachés par défaut) -->
+							<div id="form-actions" class="hidden pt-4 flex items-center gap-3">
+								<button
+									type="submit"
+									class="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 transition-all"
+								>
+									Enregistrer
+								</button>
+								<button
+									type="button"
+									id="cancel-edit"
+									class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 focus:outline-none transition-all"
+								>
+									Annuler
+								</button>
+							</div>
+						</form>
+
+						<!-- Message de succès/erreur -->
+						<p id="profile-msg" class="text-sm mt-4"></p>
+					</div>
+
+					<!-- Card Mes Créations -->
+					<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+						<div class="flex items-center justify-between mb-6">
+							<h2 class="text-xl font-semibold text-gray-900">Mes Créations</h2>
+							<a href="/configurateur" class="text-sm text-blue-600 hover:text-blue-700 font-medium">
+								+ Nouvelle création
+							</a>
+						</div>
+
+						<!-- Liste des créations (vide pour l'instant) -->
+						<div id="creations-list" class="space-y-4">
+							<div class="text-center py-12 text-gray-500">
+								<svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+								</svg>
+								<p class="text-sm">Aucune création pour le moment</p>
+								<p class="text-xs text-gray-400 mt-1">Créez votre première paire de lunettes personnalisée</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- Colonne droite : Actions -->
+				<div class="lg:col-span-1 space-y-6">
+					
+					<!-- Card Avatar -->
+					<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+						<div class="flex flex-col items-center text-center">
+							<div class="w-24 h-24 bg-linear-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-lg mb-4">
+								<span id="profile-initials"></span>
+							</div>
+							<h3 id="profile-name" class="text-lg font-semibold text-gray-900"></h3>
+							<p id="profile-email" class="text-sm text-gray-500 mt-1"></p>
+						</div>
+					</div>
+
+					<!-- Card Actions rapides -->
+					<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+						<h3 class="text-sm font-semibold text-gray-700 mb-4">Actions rapides</h3>
+						<div class="space-y-3">
+							<a href="/configurateur" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group">
+								<div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+									<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+									</svg>
+								</div>
+								<div class="flex-1 text-left">
+									<p class="text-sm font-medium text-gray-900">Configurateur</p>
+									<p class="text-xs text-gray-500">Créer des lunettes</p>
+								</div>
+							</a>
+							
+							<a href="#galerie" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group">
+								<div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+									<svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+									</svg>
+								</div>
+								<div class="flex-1 text-left">
+									<p class="text-sm font-medium text-gray-900">Ma Galerie</p>
+									<p class="text-xs text-gray-500">Voir mes créations</p>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<!-- Bouton Déconnexion -->
+					<button
+						id="logout-button"
+						class="w-full bg-red-50 hover:bg-red-100 text-red-600 font-medium py-3 px-4 rounded-xl border-2 border-red-200 hover:border-red-300 transition-all flex items-center justify-center gap-2 group"
+					>
+						<svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+						</svg>
+						Se déconnecter
+					</button>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</Layout>
+
+<script type="module">
+	const { pb } = await import('/src/lib/pb.js');
+
+	// Rediriger si non connecté
+	if (!pb.authStore.isValid) {
+		location.href = '/login';
+	}
+
+	const user = pb.authStore.model;
+	
+	// Remplir les informations
+	const nameParts = (user.name || '').split(' ');
+	const prenom = nameParts[0] || '';
+	const nom = nameParts.slice(1).join(' ') || '';
+
+	document.getElementById('prenom').value = prenom;
+	document.getElementById('nom').value = nom;
+	document.getElementById('email').value = user.email;
+	document.getElementById('profile-name').textContent = user.name || user.email;
+	document.getElementById('profile-email').textContent = user.email;
+
+	// Générer les initiales
+	let initials = '';
+	if (nameParts.length >= 2) {
+		initials = nameParts[0][0] + nameParts[1][0];
+	} else if (user.name) {
+		initials = user.name.substring(0, 2);
+	} else {
+		initials = user.email.substring(0, 2);
+	}
+	document.getElementById('profile-initials').textContent = initials.toUpperCase();
+
+	// Mode édition
+	const editToggle = document.getElementById('edit-toggle');
+	const formActions = document.getElementById('form-actions');
+	const prenomInput = document.getElementById('prenom');
+	const nomInput = document.getElementById('nom');
+	const emailInput = document.getElementById('email');
+	const cancelEdit = document.getElementById('cancel-edit');
+	const profileForm = document.getElementById('profile-form');
+	const profileMsg = document.getElementById('profile-msg');
+
+	let isEditing = false;
+
+	editToggle.addEventListener('click', () => {
+		isEditing = true;
+		prenomInput.disabled = false;
+		nomInput.disabled = false;
+		emailInput.disabled = false;
+		formActions.classList.remove('hidden');
+		formActions.classList.add('flex');
+		editToggle.classList.add('hidden');
+		prenomInput.focus();
+	});
+
+	cancelEdit.addEventListener('click', () => {
+		isEditing = false;
+		prenomInput.disabled = true;
+		nomInput.disabled = true;
+		emailInput.disabled = true;
+		formActions.classList.add('hidden');
+		formActions.classList.remove('flex');
+		editToggle.classList.remove('hidden');
+		
+		// Restaurer les valeurs originales
+		prenomInput.value = prenom;
+		nomInput.value = nom;
+		emailInput.value = user.email;
+		profileMsg.textContent = '';
+	});
+
+	// Soumission du formulaire
+	profileForm.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		
+		const newPrenom = prenomInput.value.trim();
+		const newNom = nomInput.value.trim();
+		const newEmail = emailInput.value.trim();
+		const newName = `${newPrenom} ${newNom}`.trim();
+
+		try {
+			const data = {
+				name: newName,
+				email: newEmail
+			};
+
+			await pb.collection('users').update(user.id, data);
+			
+			profileMsg.textContent = '✓ Profil mis à jour avec succès !';
+			profileMsg.className = 'text-sm mt-4 text-green-600';
+			
+			// Mettre à jour l'affichage
+			document.getElementById('profile-name').textContent = newName;
+			document.getElementById('profile-email').textContent = newEmail;
+			
+			// Recalculer les initiales
+			const parts = newName.split(' ');
+			let newInitials = '';
+			if (parts.length >= 2) {
+				newInitials = parts[0][0] + parts[1][0];
+			} else {
+				newInitials = newName.substring(0, 2);
+			}
+			document.getElementById('profile-initials').textContent = newInitials.toUpperCase();
+
+			// Désactiver le mode édition
+			setTimeout(() => {
+				cancelEdit.click();
+			}, 1500);
+
+		} catch (err) {
+			console.error('Erreur:', err);
+			profileMsg.textContent = '✗ Erreur lors de la mise à jour';
+			profileMsg.className = 'text-sm mt-4 text-red-600';
+		}
+	});
+
+	// Déconnexion
+	const logoutButton = document.getElementById('logout-button');
+	logoutButton.addEventListener('click', () => {
+		if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+			pb.authStore.clear();
+			location.href = '/';
+		}
+	});
+
+	// Charger les créations (à implémenter plus tard)
+	// TODO: Récupérer les lunettes sauvegardées depuis PocketBase
+</script>

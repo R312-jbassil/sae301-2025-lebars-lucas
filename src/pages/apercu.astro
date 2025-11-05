@@ -1,0 +1,546 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LunettesViewer from "../components/LunettesViewer.astro";
+---
+
+<Layout>
+	<!-- APERÇU / FINAL -->
+	<section class="min-h-screen bg-gray-50 py-12">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			
+			<!-- HEADER -->
+			<div class="text-center mb-8">
+				<p class="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">APERÇU / FINAL</p>
+				<h1 class="text-4xl font-bold text-gray-900 mb-4">Votre Configuration</h1>
+				<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+					Vérifiez votre personnalisation et ajoutez des options supplémentaires avant de finaliser votre commande
+				</p>
+			</div>
+
+			<div class="grid lg:grid-cols-[1fr_400px] gap-8 items-start">
+				
+				<!-- LEFT COLUMN -->
+				<div class="space-y-6">
+					
+					<!-- 3D PREVIEW -->
+					<div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+						<h2 class="text-xl font-semibold text-gray-900 mb-6">Prévisualisation 3D</h2>
+						<div class="h-[500px] w-full">
+							<LunettesViewer />
+						</div>
+					</div>
+
+					<!-- CONFIG DETAILS -->
+					<div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+						<h3 class="text-lg font-semibold text-gray-900 mb-4">Détails de la configuration</h3>
+						<div class="grid grid-cols-2 gap-6">
+							<div>
+								<p class="text-sm text-gray-500 mb-1">Taille</p>
+								<p id="detail-size" class="text-base font-medium text-gray-900">Medium - 350mm</p>
+								<p id="detail-size-price" class="text-sm text-blue-600 font-semibold"></p>
+							</div>
+							<div>
+								<p class="text-sm text-gray-500 mb-1">Monture</p>
+								<div class="flex items-center gap-2">
+									<div id="detail-monture-color" class="w-6 h-6 rounded-full border border-gray-300" style="background-color: #8B8B8B;"></div>
+									<div>
+										<p id="detail-monture" class="text-base font-medium text-gray-900">Aluminum</p>
+										<p id="detail-monture-price" class="text-sm text-blue-600 font-semibold"></p>
+									</div>
+								</div>
+							</div>
+							<div>
+								<p class="text-sm text-gray-500 mb-1">Branches</p>
+								<div class="flex items-center gap-2">
+									<div id="detail-branches-color" class="w-6 h-6 rounded-full border border-gray-300" style="background-color: #D3D3D3;"></div>
+									<div>
+										<p id="detail-branches" class="text-base font-medium text-gray-900">Gunmetal</p>
+										<p id="detail-branches-price" class="text-sm text-blue-600 font-semibold"></p>
+									</div>
+								</div>
+							</div>
+							<div>
+								<p class="text-sm text-gray-500 mb-1">Verres</p>
+								<div class="flex items-center gap-2">
+									<div id="detail-verres-color" class="w-6 h-6 rounded-full border border-gray-300" style="background-color: #E0F2FF;"></div>
+									<div>
+										<p id="detail-verres" class="text-base font-medium text-gray-900">Classique</p>
+										<p id="detail-verres-price" class="text-sm text-blue-600 font-semibold"></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- OPTIONS SUPPLÉMENTAIRES -->
+					<div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+						<h3 class="text-lg font-semibold text-gray-900 mb-4">Options supplémentaires</h3>
+						<p class="text-sm text-gray-500 mb-6">Personnalisez davantage votre monture avec des options techniques et esthétiques</p>
+						
+						<div class="space-y-4">
+							
+							<!-- Largeur du pont -->
+							<div class="border border-gray-200 rounded-xl p-4">
+								<div class="flex items-center justify-between mb-3">
+									<div>
+										<h4 class="font-medium text-gray-900">Largeur du pont :</h4>
+										<p class="text-sm text-gray-500">Distance entre les deux verres</p>
+									</div>
+									<span class="text-sm text-gray-500">Gratuit</span>
+								</div>
+								<div class="flex gap-2">
+									<button data-option="pont" data-value="16mm" data-price="0" class="option-pont flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium hover:border-blue-300 transition-all">
+										16 mm
+									</button>
+									<button data-option="pont" data-value="17mm" data-price="0" class="option-pont flex-1 px-4 py-2 rounded-lg border-2 border-blue-600 bg-blue-50 text-sm font-medium transition-all">
+										17 mm (Standard)
+									</button>
+									<button data-option="pont" data-value="18mm" data-price="0" class="option-pont flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium hover:border-blue-300 transition-all">
+										18 mm (Standard)
+									</button>
+									<button data-option="pont" data-value="19mm" data-price="0" class="option-pont flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium hover:border-blue-300 transition-all">
+										19 mm
+									</button>
+									<button data-option="pont" data-value="20mm" data-price="0" class="option-pont flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium hover:border-blue-300 transition-all">
+										20 mm (Large)
+									</button>
+								</div>
+							</div>
+
+							<!-- Taille des verres -->
+							<div class="border border-gray-200 rounded-xl p-4">
+								<div class="flex items-center justify-between mb-3">
+									<div>
+										<h4 class="font-medium text-gray-900">Taille des verres :</h4>
+										<p class="text-sm text-gray-500">Dimensions de chaque verre</p>
+									</div>
+									<span class="text-sm text-gray-500">Gratuit</span>
+								</div>
+								<div class="flex gap-2">
+									<button data-option="verres-taille" data-value="46mm" data-price="0" class="option-verres-taille flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium hover:border-blue-300 transition-all">
+										46 mm
+									</button>
+									<button data-option="verres-taille" data-value="48mm" data-price="0" class="option-verres-taille flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium hover:border-blue-300 transition-all">
+										48 mm
+									</button>
+									<button data-option="verres-taille" data-value="50mm" data-price="0" class="option-verres-taille flex-1 px-4 py-2 rounded-lg border-2 border-blue-600 bg-blue-50 text-sm font-medium transition-all">
+										50 mm (Standard)
+									</button>
+									<button data-option="verres-taille" data-value="52mm" data-price="0" class="option-verres-taille flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium hover:border-blue-300 transition-all">
+										52 mm
+									</button>
+									<button data-option="verres-taille" data-value="54mm" data-price="0" class="option-verres-taille flex-1 px-4 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium hover:border-blue-300 transition-all">
+										54 mm (Large)
+									</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+				<!-- RIGHT COLUMN: ORDER SUMMARY -->
+				<div class="sticky top-24 space-y-6">
+					
+					<!-- PRICE SUMMARY -->
+					<div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+						<h3 class="text-lg font-semibold text-gray-900 mb-4">Récapitulatif du prix</h3>
+						
+						<div class="space-y-3 pb-4 border-b border-gray-200">
+							<div class="flex justify-between text-sm">
+								<span class="text-gray-600">Prix de base</span>
+								<span class="font-medium text-gray-900">89,99 €</span>
+							</div>
+							<div id="size-cost" class="justify-between text-sm hidden">
+								<span class="text-gray-600">Taille <span id="size-cost-label"></span></span>
+								<span class="font-medium text-gray-900" id="size-cost-value">+0,00 €</span>
+							</div>
+							<div id="monture-cost" class="justify-between text-sm hidden">
+								<span class="text-gray-600">Monture <span id="monture-cost-label"></span></span>
+								<span class="font-medium text-gray-900" id="monture-cost-value">+0,00 €</span>
+							</div>
+							<div id="branches-cost" class="justify-between text-sm hidden">
+								<span class="text-gray-600">Branches <span id="branches-cost-label"></span></span>
+								<span class="font-medium text-gray-900" id="branches-cost-value">+0,00 €</span>
+							</div>
+							<div id="verres-cost" class="justify-between text-sm hidden">
+								<span class="text-gray-600">Verres <span id="verres-cost-label"></span></span>
+								<span class="font-medium text-gray-900" id="verres-cost-value">+0,00 €</span>
+							</div>
+						</div>
+						
+						<div class="flex justify-between items-center pt-4">
+							<span class="text-lg font-semibold text-gray-900">Total</span>
+							<span class="text-2xl font-bold text-blue-600" id="total-price">89,99 €</span>
+						</div>
+					</div>
+
+					<!-- ACTIONS -->
+					<div class="space-y-3">
+						<button id="save-btn" class="w-full px-6 py-4 rounded-full bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-green-600/20">
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+							</svg>
+							Sauvegarder ma création
+						</button>
+						<button id="add-to-cart-btn" class="w-full px-6 py-4 rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20">
+							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+							</svg>
+							Ajouter au panier
+						</button>
+						<a href="/configurateur" class="w-full px-6 py-3 rounded-full border-2 border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+							← Retour au configurateur
+						</a>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<script type="module">
+	import { pb } from '/src/lib/pb.js';
+
+	// Check authentication
+	if (!pb.authStore.isValid) {
+		window.location.href = '/login';
+	}
+
+	// Load configuration from localStorage
+	const configStr = localStorage.getItem('currentConfig');
+	if (!configStr) {
+		window.location.href = '/configurateur';
+	}
+
+	const config = JSON.parse(configStr || '{}');
+	const BASE_PRICE = 89.99;
+
+	// Additional options state
+	let additionalOptions = {
+		pont: { value: '17mm', price: 0 },
+		verresTaille: { value: '50mm', price: 0 }
+	};
+
+	// Apply configuration to 3D viewer
+	const montureElements = document.querySelectorAll('.lunettes-monture');
+	const branchesElements = document.querySelectorAll('.lunettes-branches');
+	const verresElements = document.querySelectorAll('.lunettes-verres');
+	
+	montureElements.forEach(el => el.style.fill = config.montureColor || '#8B8B8B');
+	branchesElements.forEach(el => el.style.fill = config.branchesColor || '#D3D3D3');
+	verresElements.forEach(el => el.style.fill = config.verresColor || '#E0F2FF');
+
+	// Update detail section
+	const detailSize = document.getElementById('detail-size');
+	const detailSizePrice = document.getElementById('detail-size-price');
+	const detailMonture = document.getElementById('detail-monture');
+	const detailMontureColor = document.getElementById('detail-monture-color');
+	const detailMonturePrice = document.getElementById('detail-monture-price');
+	const detailBranches = document.getElementById('detail-branches');
+	const detailBranchesColor = document.getElementById('detail-branches-color');
+	const detailBranchesPrice = document.getElementById('detail-branches-price');
+	const detailVerres = document.getElementById('detail-verres');
+	const detailVerresColor = document.getElementById('detail-verres-color');
+	const detailVerresPrice = document.getElementById('detail-verres-price');
+
+	if (detailSize) {
+		const labels = { 'S': 'Small', 'M': 'Medium', 'L': 'Large' };
+		detailSize.textContent = `${labels[config.size] || 'Medium'} - ${config.sizeValue || '350mm'}`;
+	}
+	if (detailSizePrice && config.sizePrice > 0) {
+		detailSizePrice.textContent = `+${config.sizePrice}€`;
+	}
+
+	if (detailMonture) detailMonture.textContent = config.montureMaterial || 'Aluminum';
+	if (detailMontureColor) detailMontureColor.style.backgroundColor = config.montureColor || '#8B8B8B';
+	if (detailMonturePrice && config.monturePrice > 0) {
+		detailMonturePrice.textContent = `+${config.monturePrice}€`;
+	}
+
+	if (detailBranches) detailBranches.textContent = config.branchesMaterial || 'Gunmetal';
+	if (detailBranchesColor) detailBranchesColor.style.backgroundColor = config.branchesColor || '#D3D3D3';
+	if (detailBranchesPrice && config.branchesPrice > 0) {
+		detailBranchesPrice.textContent = `+${config.branchesPrice}€`;
+	}
+
+	if (detailVerres) detailVerres.textContent = config.verresType || 'Classique';
+	if (detailVerresColor) detailVerresColor.style.backgroundColor = config.verresColor || '#E0F2FF';
+	if (detailVerresPrice && config.verresPrice > 0) {
+		detailVerresPrice.textContent = `+${config.verresPrice}€`;
+	}
+
+	// Update price summary
+	function updatePriceSummary() {
+		const sizeCost = config.sizePrice || 0;
+		const montureCost = config.monturePrice || 0;
+		const branchesCost = config.branchesPrice || 0;
+		const verresCost = config.verresPrice || 0;
+		
+		// Show/hide cost lines
+		const sizeCostEl = document.getElementById('size-cost');
+		const montureCostEl = document.getElementById('monture-cost');
+		const branchesCostEl = document.getElementById('branches-cost');
+		const verresCostEl = document.getElementById('verres-cost');
+
+		if (sizeCost > 0 && sizeCostEl) {
+			sizeCostEl.classList.remove('hidden');
+			sizeCostEl.classList.add('flex');
+			const label = document.getElementById('size-cost-label');
+			const value = document.getElementById('size-cost-value');
+			if (label) label.textContent = `(${config.size})`;
+			if (value) value.textContent = `+${sizeCost.toFixed(2)} €`;
+		}
+
+		if (montureCost > 0 && montureCostEl) {
+			montureCostEl.classList.remove('hidden');
+			montureCostEl.classList.add('flex');
+			const label = document.getElementById('monture-cost-label');
+			const value = document.getElementById('monture-cost-value');
+			if (label) label.textContent = `(${config.montureMaterial})`;
+			if (value) value.textContent = `+${montureCost.toFixed(2)} €`;
+		}
+
+		if (branchesCost > 0 && branchesCostEl) {
+			branchesCostEl.classList.remove('hidden');
+			branchesCostEl.classList.add('flex');
+			const label = document.getElementById('branches-cost-label');
+			const value = document.getElementById('branches-cost-value');
+			if (label) label.textContent = `(${config.branchesMaterial})`;
+			if (value) value.textContent = `+${branchesCost.toFixed(2)} €`;
+		}
+
+		if (verresCost > 0 && verresCostEl) {
+			verresCostEl.classList.remove('hidden');
+			verresCostEl.classList.add('flex');
+			const label = document.getElementById('verres-cost-label');
+			const value = document.getElementById('verres-cost-value');
+			if (label) label.textContent = `(${config.verresType})`;
+			if (value) value.textContent = `+${verresCost.toFixed(2)} €`;
+		}
+
+		const total = BASE_PRICE + sizeCost + montureCost + branchesCost + verresCost;
+		const totalEl = document.getElementById('total-price');
+		if (totalEl) totalEl.textContent = `${total.toFixed(2)} €`;
+	}
+
+	updatePriceSummary();
+
+	// Additional options handlers
+	const optionsPont = document.querySelectorAll('.option-pont');
+	optionsPont.forEach(btn => {
+		btn.addEventListener('click', () => {
+			optionsPont.forEach(b => {
+				b.classList.remove('border-blue-600', 'bg-blue-50');
+				b.classList.add('border-gray-200');
+			});
+			btn.classList.add('border-blue-600', 'bg-blue-50');
+			btn.classList.remove('border-gray-200');
+			
+			const value = btn.dataset.value || '17mm';
+			const price = parseInt(btn.dataset.price || '0');
+			additionalOptions.pont = { value, price };
+		});
+	});
+
+	const optionsVerresTaille = document.querySelectorAll('.option-verres-taille');
+	optionsVerresTaille.forEach(btn => {
+		btn.addEventListener('click', () => {
+			optionsVerresTaille.forEach(b => {
+				b.classList.remove('border-blue-600', 'bg-blue-50');
+				b.classList.add('border-gray-200');
+			});
+			btn.classList.add('border-blue-600', 'bg-blue-50');
+			btn.classList.remove('border-gray-200');
+			
+			const value = btn.dataset.value || '50mm';
+			const price = parseInt(btn.dataset.price || '0');
+			additionalOptions.verresTaille = { value, price };
+		});
+	});
+
+	// Save button - save to PocketBase
+	const saveBtn = document.getElementById('save-btn');
+	if (saveBtn) {
+		saveBtn.addEventListener('click', async () => {
+			try {
+				// Check if user is authenticated
+				if (!pb.authStore.isValid || !pb.authStore.model?.id) {
+					alert('❌ Vous devez être connecté pour sauvegarder une création.');
+					window.location.href = '/login';
+					return;
+				}
+				
+				// Get SVG as string
+				const svgContainer = document.querySelector('.h-\\[500px\\] svg');
+				const svgString = svgContainer ? svgContainer.outerHTML : '';
+				
+				// Prompt for name
+				const nomConfiguration = prompt('Donnez un nom à votre création:', `Lunettes ${config.montureMaterial || 'personnalisées'}`);
+				if (!nomConfiguration) return;
+				
+				// Get or create materiau records
+				const materiaux = await pb.collection('materiau').getFullList();
+				
+				// Find or create monture materiau
+				let montureRecord = materiaux.find(m => 
+					m.type_element === 'monture' && 
+					m.code_hex_apercu === config.montureColor
+				);
+				if (!montureRecord) {
+					montureRecord = await pb.collection('materiau').create({
+						libelle: config.montureMaterial || config.montureName,
+						code_hex_apercu: config.montureColor,
+						type_element: 'monture'
+					});
+				}
+				
+				// Find or create branche materiau
+				let brancheRecord = materiaux.find(m => 
+					m.type_element === 'branche' && 
+					m.code_hex_apercu === config.branchesColor
+				);
+				if (!brancheRecord) {
+					brancheRecord = await pb.collection('materiau').create({
+						libelle: config.branchesMaterial || config.branchesName,
+						code_hex_apercu: config.branchesColor,
+						type_element: 'branche'
+					});
+				}
+				
+				// Find or create verre materiau
+				let verreRecord = materiaux.find(m => 
+					m.type_element === 'verre' && 
+					m.code_hex_apercu === config.verresColor
+				);
+				if (!verreRecord) {
+					verreRecord = await pb.collection('materiau').create({
+						libelle: config.verresType || config.verresName,
+						code_hex_apercu: config.verresColor,
+						type_element: 'verre'
+					});
+				}
+				
+				// Get or create dimension records
+				const dimensions = await pb.collection('dimension').getFullList();
+				
+				// Find or create pont dimension
+				const pontValue = parseFloat(additionalOptions.pont.value);
+				let pontRecord = dimensions.find(d => 
+					d.type_dimension === 'pont' && 
+					d.valeur_mm === pontValue
+				);
+				if (!pontRecord) {
+					pontRecord = await pb.collection('dimension').create({
+						libelle: additionalOptions.pont.value,
+						valeur_mm: pontValue,
+						type_dimension: 'pont'
+					});
+				}
+				
+				// Find or create taille_verre dimension
+				const verresTailleValue = parseFloat(additionalOptions.verresTaille.value);
+				let verresTailleRecord = dimensions.find(d => 
+					d.type_dimension === 'verre' && 
+					d.valeur_mm === verresTailleValue
+				);
+				if (!verresTailleRecord) {
+					verresTailleRecord = await pb.collection('dimension').create({
+						libelle: additionalOptions.verresTaille.value,
+						valeur_mm: verresTailleValue,
+						type_dimension: 'verre'
+					});
+				}
+				
+				// Prepare data with relations
+				const saveData = {
+					id_utilisateur: pb.authStore.model?.id,
+					nom_configuration: nomConfiguration,
+					code_svg_final: svgString,
+					genere_par_ia: false,
+					id_monture: montureRecord.id,
+					id_branche: brancheRecord.id,
+					id_verre: verreRecord.id,
+					id_pont: pontRecord.id,
+					id_taille_verre: verresTailleRecord.id,
+					// Store additional config in prompt_ia as backup
+					prompt_ia: JSON.stringify({
+						size: config.size,
+						sizeValue: config.sizeValue,
+						sizePrice: config.sizePrice,
+						monturePrice: config.monturePrice,
+						branchesPrice: config.branchesPrice,
+						verresPrice: config.verresPrice,
+						totalPrice: BASE_PRICE + (config.sizePrice || 0) + (config.monturePrice || 0) + (config.branchesPrice || 0) + (config.verresPrice || 0)
+					})
+				};
+				
+				// Save to PocketBase
+				await pb.collection('lunette_sauvegardee').create(saveData);
+				
+				alert('✅ Création sauvegardée avec succès !');
+				window.location.href = '/creations';
+			} catch (error) {
+				console.error('Erreur lors de la sauvegarde:', error);
+				
+				// Display more detailed error
+				if (error?.status === 403) {
+					alert('❌ Erreur de permissions. Vérifiez que les collections PocketBase autorisent la création d\'enregistrements pour les utilisateurs authentifiés.');
+				} else if (error?.status === 400) {
+					alert('❌ Données invalides. Vérifiez que toutes les informations sont correctes.');
+				} else {
+					alert('❌ Erreur lors de la sauvegarde: ' + (error?.message || 'Erreur inconnue'));
+				}
+			}
+		});
+	}
+
+	// Add to cart button
+	const addToCartBtn = document.getElementById('add-to-cart-btn');
+	if (addToCartBtn) {
+		addToCartBtn.addEventListener('click', () => {
+			// Get user-specific cart key
+			const userId = pb.authStore.model?.id;
+			const cartKey = `cart_${userId}`;
+			const cart = JSON.parse(localStorage.getItem(cartKey) || '[]');
+			
+			const cartItem = {
+				name: "Lunettes personnalisées",
+				size: config.size,
+				sizeValue: config.sizeValue,
+				montureColor: config.montureColor,
+				montureName: config.montureName,
+				montureMaterial: config.montureMaterial,
+				branchesColor: config.branchesColor,
+				branchesName: config.branchesName,
+				branchesMaterial: config.branchesMaterial,
+				verresColor: config.verresColor,
+				verresName: config.verresName,
+				verresType: config.verresType,
+				pont: additionalOptions.pont.value,
+				verresTaille: additionalOptions.verresTaille.value,
+				basePrice: BASE_PRICE,
+				sizePrice: config.sizePrice || 0,
+				monturePrice: config.monturePrice || 0,
+				branchesPrice: config.branchesPrice || 0,
+				verresPrice: config.verresPrice || 0,
+				totalPrice: BASE_PRICE + (config.sizePrice || 0) + (config.monturePrice || 0) + (config.branchesPrice || 0) + (config.verresPrice || 0),
+				quantity: 1
+			};
+
+			cart.push(cartItem);
+			localStorage.setItem(cartKey, JSON.stringify(cart));
+			
+			// Dispatch custom event for header badge update
+			window.dispatchEvent(new Event('cartUpdated'));
+			
+			// Show success and redirect
+			alert('Lunettes ajoutées au panier !');
+			window.location.href = '/panier';
+		});
+	}
+</script>
+</Layout>
