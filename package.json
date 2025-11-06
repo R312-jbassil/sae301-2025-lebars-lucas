@@ -10,8 +10,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/node": "^9.5.0",
     "@tailwindcss/vite": "^4.1.16",
-    "@astrojs/node": "^9.1.0",
     "astro": "^5.15.3",
     "daisyui": "^5.4.3",
     "openai": "^6.8.1",
