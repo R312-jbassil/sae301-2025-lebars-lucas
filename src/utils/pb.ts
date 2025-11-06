@@ -1,4 +1,5 @@
 import PocketBase from 'pocketbase';
+import type { TypedPocketBase } from './pocketbase-types';
 
 // Configuration dynamique selon l'environnement
 let path = '';
@@ -8,4 +9,6 @@ if (import.meta.env.MODE === 'development') {
   path = 'https://sae301.lucas-lebars.fr:443'; // url du site en production
 }
 
-export const pb = new PocketBase(path);
+const pb = new PocketBase(path) as TypedPocketBase;
+
+export default pb;
